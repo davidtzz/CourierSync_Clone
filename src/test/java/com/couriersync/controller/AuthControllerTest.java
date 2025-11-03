@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -149,19 +150,10 @@ class AuthControllerTest {
         registroDTO.setContraseña("david12345678!");
         registroDTO.setConfirmarContraseña("david12345678!");
         registroDTO.setRol(1);
-        /*Se tuvo que usar un bloque try-catch para poder manejar la excepcion
-        y que la prueba pase, pero el controlador debería tener el manejo para
-        que la respuesta del servicio sea 400*/
-        try {
-            mockMvc.perform(post("/register")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(registroDTO)))
-                    .andExpect(status().isBadRequest());
-            fail("Debería lanzar IllegalArgumentException");
-        } catch (Exception e) {
-            assertTrue(e.getCause() instanceof IllegalArgumentException);
-            assertEquals("El nombre de usuario ya está en uso.", e.getCause().getMessage());
-        }
+        mockMvc.perform(post("/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(registroDTO)))
+                .andExpect(status().isBadRequest());
     }
     @Test
     void testRegistroUsuarioCamposVacios() throws Exception{
@@ -193,16 +185,10 @@ class AuthControllerTest {
         registroDTO.setContraseña("david12345678!");
         registroDTO.setConfirmarContraseña("davi112345678!");
         registroDTO.setRol(1);
-        try {
-            mockMvc.perform(post("/register")
-                            .contentType(MediaType.APPLICATION_JSON)
-                            .content(objectMapper.writeValueAsString(registroDTO)))
-                    .andExpect(status().isBadRequest());
-            fail("Debería lanzar IllegalArgumentException");
-        } catch (Exception e) {
-            assertTrue(e.getCause() instanceof IllegalArgumentException);
-            assertEquals("Las contraseñas no coinciden.", e.getCause().getMessage());
-        }
+        mockMvc.perform(post("/register")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(registroDTO)))
+                .andExpect(status().isBadRequest());
     }
     @Test
     void testCierreSesionExitoso() throws Exception {
