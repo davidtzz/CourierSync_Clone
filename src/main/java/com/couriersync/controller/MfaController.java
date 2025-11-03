@@ -30,7 +30,7 @@ public class MfaController {
     }
 
     @PostMapping("/generate-secret")
-    public ResponseEntity<?> generateSecret(@RequestBody Map<String, String> request) {
+    public ResponseEntity<Object> generateSecret(@RequestBody Map<String, String> request) {
         String cedula = request.get("cedula");
         
         try {
@@ -53,7 +53,7 @@ public class MfaController {
     }
 
     @PostMapping("/verify")
-    public ResponseEntity<?> verifyMfa(@RequestBody MfaRequest request) {
+    public ResponseEntity<Object> verifyMfa(@RequestBody MfaRequest request) {
         try {
             Usuario usuario = authService.findByCedula(request.getCedula());
             

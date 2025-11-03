@@ -26,7 +26,7 @@ public class UsuarioController {
     private JwtService jwtService;
 
     @PatchMapping("/{cedula}/rol")
-    public ResponseEntity<?> cambiarRol(
+    public ResponseEntity<Object> cambiarRol(
         @PathVariable String cedula,
         @RequestBody Map<String, Integer> body,
         @RequestHeader("Authorization") String tokenHeader

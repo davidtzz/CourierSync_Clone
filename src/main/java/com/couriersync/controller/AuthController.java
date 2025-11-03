@@ -29,6 +29,8 @@ import jakarta.validation.Valid;
 @RestController
 @CrossOrigin(origins = "http://localhost:8080", methods = {RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.PATCH}, allowedHeaders = "*", allowCredentials = "true")
 public class AuthController {
+    private static final String MESSAGE_KEY = "message";
+    private static final String CEDULA_KEY = "cedula";
     private final AuthService authService;
     private final SignUpService signUpService;
     private final JwtService jwtService;
@@ -46,7 +48,7 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<?> login(@Valid @RequestBody UsuarioLoginDTO usuarioLoginDTO) {
+    public ResponseEntity<Object> login(@Valid @RequestBody UsuarioLoginDTO usuarioLoginDTO) {
         boolean success = authService.authenticate(usuarioLoginDTO.getUsername(),
             usuarioLoginDTO.getContraseña(),
             usuarioLoginDTO.getRol());
@@ -62,9 +64,9 @@ public class AuthController {
         // Verificar si el usuario tiene MFA habilitado
         if (usuario.isMfaEnabled()) {
             return ResponseEntity.ok(Map.of(
-                "message", "Se requiere verificación MFA",
+                MESSAGE_KEY, "Se requiere verificación MFA",
                 "requiresMfa", true,
-                "cedula", usuario.getCedula()
+                CEDULA_KEY, usuario.getCedula()
             ));
         }
 
@@ -77,8 +79,8 @@ public class AuthController {
 
         return ResponseEntity.ok(Map.of(
             "token", token,
-            "message", "Login exitoso",
-            "cedula", usuario.getCedula(),
+            MESSAGE_KEY, "Login exitoso",
+            CEDULA_KEY, usuario.getCedula(),
             "rol", usuario.getRol()
         ));
     }
@@ -102,7 +104,7 @@ public class AuthController {
     }
 
     @PostMapping("/logout")
-    public ResponseEntity<?> logout(@RequestHeader(value = "Authorization", required = false) String authHeader) {
+    public ResponseEntity<Object> logout(@RequestHeader(value = "Authorization", required = false) String authHeader) {
         if (authHeader == null || !authHeader.startsWith("Bearer ")) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                                .body("Token de autorización requerido");
@@ -121,8 +123,8 @@ public class AuthController {
             // En un sistema más robusto, aquí agregarías el token a una blacklist
             // Por ahora, simplemente confirmamos que el logout fue exitoso
             return ResponseEntity.ok(Map.of(
-                "message", "Logout exitoso",
-                "cedula", cedula
+                MESSAGE_KEY, "Logout exitoso",
+                CEDULA_KEY, cedula
             ));
             
         } catch (Exception e) {

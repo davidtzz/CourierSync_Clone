@@ -153,7 +153,7 @@ class AuthControllerTest {
         mockMvc.perform(post("/register")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(registroDTO)))
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isBadRequest()  );
     }
     @Test
     void testRegistroUsuarioCamposVacios() throws Exception{
