@@ -47,7 +47,7 @@ class AuthControllerTest {
         // Usuario válido simulado
         Usuario usuario = new Usuario();
         usuario.setUsuario("usuario1");
-        usuario.setContraseña(passwordEncoder.encode("1234"));
+        usuario.setContrasena(passwordEncoder.encode("1234"));
         usuario.setRol(1);
 
         Mockito.when(usuarioRepository.findByUsuario("usuario1"))
