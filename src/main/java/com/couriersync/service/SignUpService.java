@@ -39,7 +39,7 @@ public class SignUpService {
 		usuario.setCelular(dto.getCelular());
 		// Encriptar la contraseña antes de guardar
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-		usuario.setContraseña(encoder.encode(dto.getContraseña()));
+		usuario.setContrasena(encoder.encode(dto.getContraseña()));
 		usuario.setRol(dto.getRol());
 		return usuarioRepository.save(usuario);
 	}

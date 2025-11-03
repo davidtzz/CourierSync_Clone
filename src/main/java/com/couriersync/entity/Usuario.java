@@ -31,7 +31,7 @@ public class Usuario {
     
     @Column(name = "contraseña", nullable = false)
     @JsonIgnore
-    private String contraseña;
+    private String contrasena;
 
     @Column(name = "rol", nullable = false)
     private int rol;
@@ -86,12 +86,12 @@ public class Usuario {
         this.celular = celular;
     }
 
-    public String getContraseña() {
-        return contraseña;
+    public String getContrasena() {
+        return contrasena;
     }
 
-    public void setContraseña(String contraseña) {
-        this.contraseña = contraseña;
+    public void setContrasena(String contraseña) {
+        this.contrasena = contraseña;
     }
 
     public int getRol() {
