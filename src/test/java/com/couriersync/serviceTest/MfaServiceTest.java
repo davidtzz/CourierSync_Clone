@@ -1,4 +1,4 @@
-﻿package com.couriersync.serviceTest;
+package com.couriersync.serviceTest;
 
 import dev.samstevens.totp.code.CodeGenerator;
 import dev.samstevens.totp.code.DefaultCodeGenerator;
